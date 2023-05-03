@@ -48,6 +48,8 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
+    environment:
+      - WDS_SOCKET_PORT=0
 
   # 6th Service => Worker : Watches Redis for new indices. Pulls each new indices, calculates its value and stores it back in Redis
   worker:
