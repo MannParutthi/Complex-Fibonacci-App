@@ -1,10 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import OtherPage from './OtherPage';
-import Fib from './Fib';
-
-// The BrowserRouter component is the brains of react-router. It tells react-router how to behave and looks at the current URL and changes the set of components visible on the screen accordingly.
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import OtherPage from "./OtherPage";
+import Fib from "./Fib";
 
 function App() {
   return (
@@ -12,13 +11,21 @@ function App() {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className = "App-title">Welcome to React</h1>
-          <Link to="/">Home</Link>  
+          <p></p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+          <Link to="/">Home</Link>
           <Link to="/otherpage">Other Page</Link>
         </header>
         <div>
           <Route exact path="/" component={Fib} />
-          <Route exact path="/otherpage" component={OtherPage} /> 
+          <Route path="/otherpage" component={OtherPage} />
         </div>
       </div>
     </Router>

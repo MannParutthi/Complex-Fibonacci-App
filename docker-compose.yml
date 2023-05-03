@@ -19,6 +19,9 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - '3050:80'
+    depends_on:
+      - api-server
+      - client
 
   # 4th Service => API Server : Express App for the APIs
   api-server:
