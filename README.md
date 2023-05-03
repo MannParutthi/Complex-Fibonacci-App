@@ -1,4 +1,4 @@
-# Complex Fibonacci App using React + Express.js + Redis + Postgres
+# Complex Fibonacci App using React + Express.js + Redis + Postgres + Docker
 
 ## UI
 ![image](https://user-images.githubusercontent.com/26864799/235949201-1aa3efac-4d86-40b6-912a-dc8053958d57.png)
