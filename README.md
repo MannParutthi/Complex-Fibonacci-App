@@ -5,6 +5,7 @@ Multi Container Deployment using Docker
 ## Architecture
 ![image](https://user-images.githubusercontent.com/26864799/235949445-5403954f-4fd9-45dd-b0b7-4c0e925f148b.png)
 ![image](https://user-images.githubusercontent.com/26864799/235950468-fd3268ed-f98b-4100-bc4f-102596217d98.png)
+![image](https://user-images.githubusercontent.com/26864799/236351201-2efaac64-203a-49ca-918e-23bc8ecc80ce.png)
 
 
 ## Workflow
