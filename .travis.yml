@@ -1,0 +1,30 @@
+sudo: required
+
+language: generic # Fix for error: "rakefile not found"
+
+services:
+  - docker
+
+before_install:
+  - docker build -t mananparuthi/react-test -f ./client/Dockerfile.dev ./client
+# - can build other projects here as well
+
+script:
+  - docker run -e CI=true mananparuthi/react-test npm test
+# - can run other tests here as well & based on all this script's exit code, travis will determine if the build passed or failed
+
+# Build production images for all projects and push them to docker hub
+after_success: 
+  - docker build -t mananparuthi/multi-client ./client
+  - docker build -t mananparuthi/multi-nginx ./nginx
+  - docker build -t mananparuthi/multi-server ./server
+  - docker build -t mananparuthi/multi-worker ./worker
+  # Log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take these images and push them to docker hub
+  - docker push mananparuthi/multi-client
+  - docker push mananparuthi/multi-nginx
+  - docker push mananparuthi/multi-server
+  - docker push mananparuthi/multi-worker
+
+# Production Dockerfile does not allow us to run any tests so we use the dev Dockerfile
