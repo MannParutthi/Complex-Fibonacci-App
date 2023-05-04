@@ -1,64 +1,31 @@
-version: '3'
-
+version: "3"
 services:
-  # 1st Service => Postgres : Stores a permanent list of all the indices that have been received
-  postgres: # It acts as a hostname and referrenced in Dockerrun.aws.json file
-    image: 'postgres:latest'
+  client:
+    image: "mananparuthi/multi-client"
+    mem_limit: 128m
+    hostname: client
+  server:
+    image: "mananparuthi/multi-server"
+    mem_limit: 128m
+    hostname: api-server
     environment:
-      - POSTGRES_PASSWORD=postgres_password
-
-  # 2nd Service => Redis : Stores all the indices and calculated values as key-value pairs
-  redis: # It acts as a hostname and referrenced in Dockerrun.aws.json file
-    image: 'redis:latest'
-
-  # 3rd Service => Nginx : Routing Traffic
-  nginx: # It acts as a hostname and referrenced in Dockerrun.aws.json file
-    restart: always
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.dev
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
+  worker:
+    image: "mananparuthi/multi-worker"
+    mem_limit: 128m
+    hostname: worker
+    environment:
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+  nginx:
+    image: "mananparuthi/multi-nginx"
+    mem_limit: 128m
+    hostname: nginx
     ports:
-      - '3050:80'
-    depends_on:
-      - api-server
-      - client
-
-  # 4th Service => API Server : Express App for the APIs
-  api-server: # It acts as a hostname and referrenced in Dockerrun.aws.json file
-    build:
-      context: ./server
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./server:/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - PGUSER=postgres
-      - PGHOST=postgres
-      - PGDATABASE=postgres
-      - PGPASSWORD=postgres_password
-      - PGPORT=5432
-
-  # 5th Service => Client : React App for the UI
-  client: # It acts as a hostname and referrenced in Dockerrun.aws.json & nginx/default.conf file
-    build:
-      context: ./client
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./client:/app
-    environment:
-      - WDS_SOCKET_PORT=0
-
-  # 6th Service => Worker : Watches Redis for new indices. Pulls each new indices, calculates its value and stores it back in Redis
-  worker: # It acts as a hostname and referrenced in Dockerrun.aws.json file
-    build:
-      context: ./worker
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./worker:/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - "80:80"
