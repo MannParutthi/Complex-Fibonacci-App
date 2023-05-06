@@ -13,3 +13,8 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/build /usr/share/nginx/html
 
 # No need to specify the CMD as the default CMD of nginx image is to start the nginx server
+
+# Build the image using the command: docker build -t <docker-id>/<image-name>:<version> .
+#   => docker build -t mananparuthi/multi-client:v1 .
+# Push the image to docker hub using the command: docker push <docker-id>/<image-name>:<version>
+#   => docker push mananparuthi/multi-client:v1
