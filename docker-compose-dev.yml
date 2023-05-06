@@ -62,3 +62,6 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+
+  
+# To run => docker-compose -f docker-compose-dev.yml up --build
